@@ -24,6 +24,7 @@ class HomeScreen extends StatelessWidget {
             style: GoogleFonts.exo(fontSize: 22, fontWeight: FontWeight.w600),
           ),
         ),
+        body: GridView.builder(gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(crossAxisCount: ), itemBuilder: itemBuilder),
         drawer: const DarwerWidget(),
       ),
     );

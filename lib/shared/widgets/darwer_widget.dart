@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:iconly/iconly.dart';
 import 'package:news_app_route/core/app_theme/app_theme.dart';
+import 'package:news_app_route/shared/widgets/categories_item.dart';
 
 class DarwerWidget extends StatelessWidget {
   const DarwerWidget({super.key});
@@ -30,8 +32,14 @@ class DarwerWidget extends StatelessWidget {
           width: b * 0.6,
           height: h * 0.8,
           color: Colors.white,
-          child: const Column(
-            children: [],
+          child: Column(
+            children: [
+              const CategoryItem(icon: Icons.menu, title: 'Categories'),
+              SizedBox(
+                height: h * 0.02,
+              ),
+              const CategoryItem(icon: Icons.settings, title: 'settings'),
+            ],
           ),
         ),
       ],
