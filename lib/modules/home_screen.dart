@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_route/models/categories_mode.dart';
 import 'package:news_app_route/shared/widgets/darwer_widget.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+ HomeScreen({super.key});
   static const String routeName = 'homeScreen';
+  List<CatergorieModel> categories = [
+    CatergorieModel(name: 'Sports', image: image, id: 'sports'),
+  ];
 
   @override
   Widget build(BuildContext context) {
