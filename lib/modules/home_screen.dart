@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_route/models/categories_mode.dart';
-import 'package:news_app_route/shared/widgets/category_widget.dart';
+import 'package:news_app_route/shared/widgets/grid_view_item.dart';
 import 'package:news_app_route/shared/widgets/darwer_widget.dart';
 
-class HomeScreen extends StatelessWidget {
-  HomeScreen({super.key});
+class HomeScreen extends StatefulWidget {
+  const HomeScreen({super.key});
   static const String routeName = 'homeScreen';
+
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
   List<CatergorieModel> categories = [
     CatergorieModel(
       name: 'Sports',
@@ -60,44 +66,71 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           title: Text(
-            'News App',
+            selectedCatergorie == null ? 'News App' : selectedCatergorie!.name,
             style: GoogleFonts.exo(fontSize: 22, fontWeight: FontWeight.w600),
           ),
         ),
-        body: Padding(
-          padding: const EdgeInsets.all(12.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Pick your Category',
-                style: GoogleFonts.poppins(
-                    fontSize: 25, fontWeight: FontWeight.w500),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              Expanded(
-                child: GridView.builder(
-                  gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
-                    crossAxisSpacing: 12,
-                    mainAxisSpacing: 15,
-                    mainAxisExtent: 240,
-                    childAspectRatio: .8,
-                    maxCrossAxisExtent: mediaQuery.size.width * .9,
-                  ),
-                  itemCount: categories.length,
-                  itemBuilder: (context, index) {
-                    return CategoriesWidget(
-                        index: index, catergorieModel: categories[index]);
-                  },
+        drawer: DarwerWidget(
+          makeModelNull: makeModelNull,
+        ),
+        body: selectedCatergorie == null
+            ? Padding(
+                padding: const EdgeInsets.all(12.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Pick your Category',
+                      style: GoogleFonts.poppins(
+                          fontSize: 25, fontWeight: FontWeight.w500),
+                    ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    Expanded(
+                      child: GridView.builder(
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: .79,
+                                crossAxisSpacing: 18,
+                                mainAxisSpacing: 18),
+                        itemCount: categories.length,
+                        itemBuilder: (context, index) {
+                          return GridViewItemWidget(
+                              OnClick: onClick,
+                              index: index,
+                              catergorieModel: categories[index]);
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
+            : Center(
+                child: Text(
+                  selectedCatergorie!.name,
+                  style: GoogleFonts.poppins(
+                      fontSize: 25, fontWeight: FontWeight.w500),
                 ),
               ),
-            ],
-          ),
-        ),
-        drawer: const DarwerWidget(),
       ),
     );
+  }
+
+  makeModelNull() {
+    selectedCatergorie = null;
+    Navigator.pop(context);
+    setState(() {});
+  }
+
+  CatergorieModel? selectedCatergorie;
+
+  onClick(
+    CatergorieModel catergorieModel,
+  ) {
+    selectedCatergorie = catergorieModel;
+    setState(() {});
+    print(catergorieModel.name);
   }
 }
