@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_route/core/network/api_manager.dart';
 import 'package:news_app_route/models/categories_mode.dart';
 import 'package:news_app_route/shared/widgets/grid_view_item.dart';
 import 'package:news_app_route/shared/widgets/darwer_widget.dart';
@@ -51,6 +52,12 @@ class _HomeScreenState extends State<HomeScreen> {
       color: const Color(0xffF2D352),
     ),
   ];
+  int index = 0;
+  @override
+  void initState() {
+    ApiManger.getSources(categories[index].name);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

@@ -15,11 +15,11 @@ class NewsApp extends StatelessWidget {
     return MaterialApp(
       theme: AppTheme.appTheme(MediaQuery.of(context)),
       debugShowCheckedModeBanner: false,
-      home: HomeScreen(),
+      home: const HomeScreen(),
       initialRoute: SplashScreen.routeName,
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
-        HomeScreen.routeName: (context) => HomeScreen(),
+        HomeScreen.routeName: (context) => const HomeScreen(),
       },
     );
   }
