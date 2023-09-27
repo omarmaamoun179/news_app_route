@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_route/core/app_theme/app_theme.dart';
 import 'package:news_app_route/modules/home_screen.dart';
+import 'package:news_app_route/modules/news_screen.dart';
 import 'package:news_app_route/modules/splash_screen.dart';
 
 void main() {
@@ -20,6 +21,7 @@ class NewsApp extends StatelessWidget {
       routes: {
         SplashScreen.routeName: (context) => const SplashScreen(),
         HomeScreen.routeName: (context) => const HomeScreen(),
+        NewsScreen.routeName: (context) => const NewsScreen(),
       },
     );
   }

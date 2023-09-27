@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:iconly/iconly.dart';
 import 'package:news_app_route/core/app_theme/app_theme.dart';
-import 'package:news_app_route/models/categories_mode.dart';
 import 'package:news_app_route/shared/widgets/categories_item.dart';
 
 class DarwerWidget extends StatelessWidget {
