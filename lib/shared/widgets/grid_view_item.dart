@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_route/models/categories_mode.dart';
 
+// ignore: must_be_immutable
 class GridViewItemWidget extends StatelessWidget {
   GridViewItemWidget(
       {super.key,
@@ -32,12 +33,12 @@ class GridViewItemWidget extends StatelessWidget {
           ),
           color: catergorieModel!.color,
           image: DecorationImage(
-            image: AssetImage(catergorieModel!.image ?? ''),
+            image: AssetImage(catergorieModel!.image),
             fit: BoxFit.contain,
           ),
         ),
         child: Text(
-          catergorieModel!.name ?? 'News',
+          catergorieModel!.name,
           style: GoogleFonts.exo(
             fontSize: 22,
             fontWeight: FontWeight.w500,

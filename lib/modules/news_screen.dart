@@ -4,6 +4,7 @@ import 'package:news_app_route/models/categories_mode.dart';
 import 'package:news_app_route/models/source_model.dart';
 import 'package:news_app_route/modules/default_tab_bar.dart';
 
+// ignore: must_be_immutable
 class NewsScreen extends StatefulWidget {
   CatergorieModel? catergorieModel;
   NewsScreen({super.key, this.catergorieModel});

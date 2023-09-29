@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_route/core/app_theme/app_theme.dart';
 import 'package:news_app_route/shared/widgets/categories_item.dart';
 
+// ignore: must_be_immutable
 class DarwerWidget extends StatelessWidget {
   Function? makeModelNull;
   DarwerWidget({

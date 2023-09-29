@@ -3,6 +3,7 @@ import 'package:news_app_route/core/network/api_manager.dart';
 import 'package:news_app_route/models/source_model.dart';
 import 'package:news_app_route/shared/widgets/source_item_widget.dart';
 
+// ignore: must_be_immutable
 class TabBarViewWidget extends StatefulWidget {
   TabBarViewWidget({
     super.key,
