@@ -32,12 +32,12 @@ class GridViewItemWidget extends StatelessWidget {
           ),
           color: catergorieModel!.color,
           image: DecorationImage(
-            image: AssetImage(catergorieModel!.image),
+            image: AssetImage(catergorieModel!.image ?? ''),
             fit: BoxFit.contain,
           ),
         ),
         child: Text(
-          catergorieModel!.name,
+          catergorieModel!.name ?? 'News',
           style: GoogleFonts.exo(
             fontSize: 22,
             fontWeight: FontWeight.w500,

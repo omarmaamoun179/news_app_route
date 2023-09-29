@@ -16,39 +16,39 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   List<CatergorieModel> categories = [
     CatergorieModel(
-      name: 'sports',
+      name: 'Sports',
       image: 'assets/images/sports.png',
       id: 'sports',
       color: const Color(0xffC91C22),
     ),
     CatergorieModel(
-      name: 'politces',
+      name: 'Politces',
       image: 'assets/images/politics.png',
-      id: 'sports',
+      id: 'general',
       color: const Color(0xff003E90),
     ),
     CatergorieModel(
       name: 'Health',
       image: 'assets/images/health.png',
-      id: 'sports',
+      id: 'health',
       color: const Color(0xffED1E79),
     ),
     CatergorieModel(
       name: 'Bussiens',
       image: 'assets/images/bussines.png',
-      id: 'sports',
+      id: 'business',
       color: const Color(0xffCF7E48),
     ),
     CatergorieModel(
-      name: 'Enviroment',
+      name: 'Entertainment',
       image: 'assets/images/environment.png',
-      id: 'sports',
+      id: 'entertainment',
       color: const Color(0xff4882CF),
     ),
     CatergorieModel(
       name: 'Science',
       image: 'assets/images/science.png',
-      id: 'sports',
+      id: 'Science',
       color: const Color(0xffF2D352),
     ),
   ];
@@ -108,7 +108,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               )
-            : const NewsScreen(),
+            : NewsScreen(
+                catergorieModel: selectedCatergorie,
+              ),
       ),
     );
   }
@@ -125,7 +127,7 @@ class _HomeScreenState extends State<HomeScreen> {
     CatergorieModel catergorieModel,
   ) {
     selectedCatergorie = catergorieModel;
+    print(selectedCatergorie!.id);
     setState(() {});
-    print(catergorieModel.name);
   }
 }

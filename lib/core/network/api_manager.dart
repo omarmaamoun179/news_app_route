@@ -11,7 +11,7 @@ class ApiManger {
       'apiKey': Constant.apiKey,
       'category': category,
     };
-    Uri url = Uri.https(Constant.baseUrl, Constant.sources, query);
+    Uri url = Uri.https(Constant.baseUrl, Constant.topHeadlines, query);
     final response = await http.get(url);
 
     print(response.body);
@@ -30,6 +30,7 @@ class ApiManger {
     };
 
     Uri url = Uri.https(Constant.baseUrl, Constant.everything, query);
+
     var response = await http.get(url);
     if (response.statusCode == 200 &&
         jsonDecode(response.body)['status'] == 'ok') {
