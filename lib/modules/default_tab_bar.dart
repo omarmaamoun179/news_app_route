@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:news_app_route/core/network/api_manager.dart';
 import 'package:news_app_route/models/source_model.dart';
+import 'package:news_app_route/modules/article_news_screen.dart';
 import 'package:news_app_route/shared/widgets/source_item_widget.dart';
 
 // ignore: must_be_immutable
@@ -52,7 +53,10 @@ class _TabBarViewWidgetState extends State<TabBarViewWidget> {
               child: ListView.builder(
                 itemCount: articles.length,
                 itemBuilder: (context, index) {
-                  return Text(articles[index].title ?? '');
+                  return ArticlesNews(
+                    sources: widget.sources[index],
+                    articles: articles[index],
+                  );
                 },
               ),
             );
