@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_route/core/app_theme/app_theme.dart';
+import 'package:news_app_route/cubit/new_cubit.dart';
 import 'package:news_app_route/shared/widgets/categories_item.dart';
 
 // ignore: must_be_immutable
@@ -20,6 +21,7 @@ class DarwerWidget extends StatelessWidget {
     return Column(
       children: [
         Container(
+          alignment: Alignment.center,
           color: theme.primaryColor,
           width: b * 0.74,
           height: h * 0.2,
@@ -42,7 +44,7 @@ class DarwerWidget extends StatelessWidget {
                   icon: Icons.menu,
                   title: 'Categories',
                   onClicked: () {
-                    makeModelNull!();
+                    NewsCubit.get(context).makeModelNull(context);
                   }),
               SizedBox(
                 height: h * 0.02,

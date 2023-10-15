@@ -13,8 +13,7 @@ class SourceItemWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(10),
-      margin: const EdgeInsets.only(bottom: 40, top: 20, left: 15),
+      padding: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: isSelected ? Colors.green : Colors.white,
         border: Border.all(color: Colors.green),

@@ -1,46 +1,83 @@
 import 'package:flutter/material.dart';
-import 'package:news_app_route/core/network/api_manager.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:news_app_route/cubit/new_cubit.dart';
+import 'package:news_app_route/cubit/news_state.dart';
 import 'package:news_app_route/models/categories_mode.dart';
-import 'package:news_app_route/models/source_model.dart';
-import 'package:news_app_route/modules/default_tab_bar.dart';
+import 'package:news_app_route/shared/widgets/article_news_screen.dart';
+import 'package:news_app_route/shared/widgets/default_tab_bar_widget.dart';
 
 // ignore: must_be_immutable
-class NewsScreen extends StatefulWidget {
+class NewsScreen extends StatelessWidget {
   CatergorieModel? catergorieModel;
   NewsScreen({super.key, this.catergorieModel});
   static const String routeName = 'news_screen';
 
   @override
-  State<NewsScreen> createState() => _NewsScreenState();
-}
-
-class _NewsScreenState extends State<NewsScreen> {
-  List<Sources> sources = [];
-
-  int? currentindex = 0;
-  @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-      future: ApiManger.getSources(widget.catergorieModel?.id ?? 'sports'),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
+    return BlocProvider(
+      create: (context) => NewsCubit()..getSources(catergorieModel!.id),
+      child: BlocConsumer<NewsCubit, HomeState>(listener: (context, state) {
+        if (state is HomeLoadindState) {
+          const Center(child: CircularProgressIndicator());
+        } else if (state is HomeSorcesErrorState) {
+          const Center(
+            child: Text('No News'),
+          );
+        } else if (state is HomeSorcesSuccessState) {
+          NewsCubit.get(context).getNewsData();
         }
-        if (snapshot.hasError) {
-          return const Center(child: Text('Error'));
-        }
-        try {
-          sources = snapshot.data?.sources ?? [];
-        } on Exception catch (e) {
-          print(e.toString());
+      }, builder: (context, state) {
+        var cubit = NewsCubit.get(context);
+        return Column(
+          children: [
+            const TabBarWidget(),
 
-          return const Center(child: Text('Error'));
-        }
-        return TabBarViewWidget(
-          sources: sources,
+            Expanded(
+              child: ListView.builder(
+                itemCount: cubit.articlesList.length,
+                itemBuilder: (context, index) {
+                  return ArticlesNewsWidget(
+                    articles: NewsCubit.get(context).articlesList[index],
+                  );
+                },
+              ),
+            )
+
+            // Expanded(
+            //   child: ListView.builder(
+            //     itemCount: cubit.articles.length,
+            //     itemBuilder: (context, index) {
+            //       return ArticlesNewsWidget(
+            //         articles: NewsCubit.get(context).articles[index],
+            //       );
+            //     },
+            //   ),
+            // )
+          ],
         );
-      },
+      }),
     );
+    // return FutureBuilder(
+    //   future: ApiManger.getSources(widget.catergorieModel?.id ?? 'sports'),
+    //   builder: (context, snapshot) {
+    //     if (snapshot.connectionState == ConnectionState.waiting) {
+    //       return const Center(child: CircularProgressIndicator());
+    //     }
+    //     if (snapshot.hasError) {
+    //       return const Center(child: Text('Error'));
+    //     }
+    //     try {
+    //       sources = snapshot.data?.sources ?? [];
+    //     } on Exception catch (e) {
+    //       print(e.toString());
+
+    //       return const Center(child: Text('Error'));
+    //     }
+    //     return TabBarViewWidget(
+    //       sources: sources,
+    //     );
+    //   },
+    // );
   }
 }
 

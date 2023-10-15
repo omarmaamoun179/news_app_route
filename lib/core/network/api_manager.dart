@@ -40,4 +40,18 @@ class ApiManger {
       throw Exception('Failed to load source');
     }
   }
+
+  static Future<ArticlesModle> searchNews(String q) async {
+    Uri url = Uri.https(Constant.baseUrl, Constant.everything,
+        {'q': q, 'apiKey': Constant.apiKey});
+    var response = await http.get(url);
+    var result = jsonDecode(response.body);
+    if (response.statusCode == 200 &&
+        jsonDecode(response.body)['status'] == 'ok') {
+      var articleModel = ArticlesModle.fromJson(result);
+      return articleModel;
+    } else {
+      throw Exception('Failed to load source');
+    }
+  }
 }

@@ -2,13 +2,15 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:news_app_route/models/articles_modle/article.dart';
-import 'package:news_app_route/models/source_model.dart';
 import 'package:news_app_route/shared/widgets/web_view_view.dart';
 
-class ArticlesNews extends StatelessWidget {
+class ArticlesNewsWidget extends StatelessWidget {
   Article articles;
-  Sources sources;
-  ArticlesNews({super.key, required this.articles, required this.sources});
+
+  ArticlesNewsWidget({
+    super.key,
+    required this.articles,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -19,12 +21,12 @@ class ArticlesNews extends StatelessWidget {
           MaterialPageRoute(
               builder: (_) => WebViewScreen(
                     articles: articles,
-                    sources: sources,
                   )),
         );
       },
       child: Container(
         margin: const EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(20),
         ),
@@ -42,7 +44,7 @@ class ArticlesNews extends StatelessWidget {
             ),
             const SizedBox(height: 10),
             Text(
-              sources.id!.toUpperCase(),
+              articles.source?.id?.toUpperCase() ?? '',
               style: GoogleFonts.poppins(
                 fontSize: 15,
                 fontWeight: FontWeight.w500,
@@ -50,7 +52,9 @@ class ArticlesNews extends StatelessWidget {
               ),
             ),
             Text(
-              articles.description!.toUpperCase(),
+              maxLines: 2,
+              overflow: TextOverflow.ellipsis,
+              articles.description?.toUpperCase() ?? '',
               style: GoogleFonts.poppins(
                 fontSize: 20,
                 fontWeight: FontWeight.w500,
@@ -60,7 +64,7 @@ class ArticlesNews extends StatelessWidget {
             Container(
               alignment: Alignment.bottomRight,
               child: Text(
-                articles.publishedAt!.toUpperCase().substring(0, 10),
+                articles.publishedAt?.toUpperCase().substring(0, 10) ?? '',
                 style: GoogleFonts.montserrat(
                   color: const Color(0xffA3A3A3),
                   fontWeight: FontWeight.w600,

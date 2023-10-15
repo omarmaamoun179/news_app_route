@@ -5,7 +5,6 @@ class AppTheme {
 
   static ThemeData appTheme(MediaQueryData mediaQuery) {
     return ThemeData(
-        scaffoldBackgroundColor: Colors.transparent,
         primaryColor: const Color(0xff39A552),
         appBarTheme: AppBarTheme(
           toolbarHeight: mediaQuery.size.height * 0.09,

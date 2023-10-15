@@ -1,19 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_route/cubit/new_cubit.dart';
+import 'package:news_app_route/cubit/news_state.dart';
 import 'package:news_app_route/models/categories_mode.dart';
 import 'package:news_app_route/modules/news_screen.dart';
+import 'package:news_app_route/modules/search_screen.dart';
 import 'package:news_app_route/shared/widgets/darwer_widget.dart';
 import 'package:news_app_route/shared/widgets/grid_view_item.dart';
 
-class HomeScreen extends StatefulWidget {
-  const HomeScreen({super.key});
+class HomeScreen extends StatelessWidget {
+  HomeScreen({super.key});
   static const String routeName = 'homeScreen';
 
-  @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
   List<CatergorieModel> categories = [
     CatergorieModel(
       name: 'Sports',
@@ -56,78 +55,97 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        image: DecorationImage(
-          image: AssetImage('assets/images/pattern.png'),
-          fit: BoxFit.cover,
-        ),
-      ),
-      child: Scaffold(
-        appBar: AppBar(
-          title: Text(
-            selectedCatergorie == null ? 'News App' : selectedCatergorie!.name,
-            style: GoogleFonts.exo(fontSize: 22, fontWeight: FontWeight.w600),
-          ),
-        ),
-        drawer: DarwerWidget(
-          makeModelNull: makeModelNull,
-        ),
-        body: selectedCatergorie == null
-            ? Padding(
-                padding: const EdgeInsets.all(12.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Pick your Category \n of your intrest',
-                      style: GoogleFonts.poppins(
-                          fontSize: 25, fontWeight: FontWeight.w500),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Expanded(
-                      child: GridView.builder(
-                        gridDelegate:
-                            const SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: 2,
-                                childAspectRatio: .79,
-                                crossAxisSpacing: 18,
-                                mainAxisSpacing: 18),
-                        itemCount: categories.length,
-                        itemBuilder: (context, index) {
-                          return GridViewItemWidget(
-                              OnClick: onClick,
-                              index: index,
-                              catergorieModel: categories[index]);
-                        },
-                      ),
-                    ),
-                  ],
-                ),
-              )
-            : NewsScreen(
-                catergorieModel: selectedCatergorie,
+    return BlocProvider(
+      create: (context) => NewsCubit(), // 1
+      child: BlocBuilder<NewsCubit, HomeState>(
+        builder: (context, state) {
+          return Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              image: DecorationImage(
+                image: AssetImage('assets/images/pattern.png'),
+                fit: BoxFit.cover,
               ),
+            ),
+            child: Scaffold(
+              backgroundColor: Colors.transparent,
+              appBar: AppBar(
+                actions: [
+                  IconButton(
+                    onPressed: () {
+                      Navigator.pushNamed(context, SearchScreen.routeName);
+                    },
+                    icon: const Icon(Icons.search),
+                  ),
+                ],
+                title: Text(
+                  NewsCubit.get(context).selectedCatergorie == null
+                      ? 'News App'
+                      : NewsCubit.get(context).selectedCatergorie!.name,
+                  style: GoogleFonts.exo(
+                      fontSize: 22, fontWeight: FontWeight.w600),
+                ),
+              ),
+              drawer: DarwerWidget(
+                makeModelNull: NewsCubit.get(context).makeModelNull,
+              ),
+              body: NewsCubit.get(context).selectedCatergorie == null
+                  ? Padding(
+                      padding: const EdgeInsets.all(12.0),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            'Pick your Category \n of your intrest',
+                            style: GoogleFonts.poppins(
+                                fontSize: 25, fontWeight: FontWeight.w500),
+                          ),
+                          const SizedBox(
+                            height: 20,
+                          ),
+                          Expanded(
+                            child: GridView.builder(
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount: 2,
+                                      childAspectRatio: .79,
+                                      crossAxisSpacing: 18,
+                                      mainAxisSpacing: 18),
+                              itemCount: categories.length,
+                              itemBuilder: (context, index) {
+                                return GridViewItemWidget(
+                                    OnClick: NewsCubit.get(context).onClick,
+                                    index: index,
+                                    catergorieModel: categories[index]);
+                              },
+                            ),
+                          ),
+                        ],
+                      ),
+                    )
+                  : NewsScreen(
+                      catergorieModel:
+                          NewsCubit.get(context).selectedCatergorie!),
+            ),
+          );
+        },
       ),
     );
   }
 
-  makeModelNull() {
-    selectedCatergorie = null;
-    Navigator.pop(context);
-    setState(() {});
-  }
+  // makeModelNull() {
+  //   selectedCatergorie = null;
+  //   Navigator.pop(context);
+  //   setState(() {});
+  // }
 
-  CatergorieModel? selectedCatergorie;
+  // CatergorieModel? selectedCatergorie;
 
-  onClick(
-    CatergorieModel catergorieModel,
-  ) {
-    selectedCatergorie = catergorieModel;
-    print(selectedCatergorie!.id);
-    setState(() {});
-  }
+  // onClick(
+  //   CatergorieModel catergorieModel,
+  // ) {
+  //   selectedCatergorie = catergorieModel;
+  //   print(selectedCatergorie!.id);
+  //   setState(() {});
+  // }
 }
