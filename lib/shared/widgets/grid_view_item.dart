@@ -6,18 +6,24 @@ import 'package:news_app_route/models/categories_mode.dart';
 class GridViewItemWidget extends StatelessWidget {
   GridViewItemWidget(
       {super.key,
+      // required this.onSaved,
       required this.catergorieModel,
       required this.index,
       required this.OnClick});
   CatergorieModel? catergorieModel;
   int index;
   Function OnClick;
-
+  // Function onSaved;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        OnClick(catergorieModel);
+        OnClick(
+          catergorieModel,
+        );
+        // onSaved(
+        //   catergorieModel
+        // );
       },
       child: Container(
         padding: const EdgeInsets.only(bottom: 7),

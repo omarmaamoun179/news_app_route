@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:news_app_route/core/cashe_helper.dart';
 import 'package:news_app_route/cubit/new_cubit.dart';
 import 'package:news_app_route/cubit/news_state.dart';
 import 'package:news_app_route/models/categories_mode.dart';
@@ -47,7 +48,7 @@ class HomeScreen extends StatelessWidget {
     CatergorieModel(
       name: 'Science',
       image: 'assets/images/science.png',
-      id: 'Science',
+      id: 'science',
       color: const Color(0xffF2D352),
     ),
   ];
@@ -55,81 +56,78 @@ class HomeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NewsCubit(), // 1
-      child: BlocBuilder<NewsCubit, HomeState>(
-        builder: (context, state) {
-          return Container(
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              image: DecorationImage(
-                image: AssetImage('assets/images/pattern.png'),
-                fit: BoxFit.cover,
-              ),
+    return BlocBuilder<NewsCubit, HomeState>(
+      builder: (context, state) {
+        return Container(
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            image: DecorationImage(
+              image: AssetImage('assets/images/pattern.png'),
+              fit: BoxFit.cover,
             ),
-            child: Scaffold(
-              backgroundColor: Colors.transparent,
-              appBar: AppBar(
-                actions: [
-                  IconButton(
-                    onPressed: () {
-                      Navigator.pushNamed(context, SearchScreen.routeName);
-                    },
-                    icon: const Icon(Icons.search),
-                  ),
-                ],
-                title: Text(
-                  NewsCubit.get(context).selectedCatergorie == null
-                      ? 'News App'
-                      : NewsCubit.get(context).selectedCatergorie!.name,
-                  style: GoogleFonts.exo(
-                      fontSize: 22, fontWeight: FontWeight.w600),
+          ),
+          child: Scaffold(
+            backgroundColor: Colors.transparent,
+            appBar: AppBar(
+              actions: [
+                IconButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, SearchScreen.routeName);
+                  },
+                  icon: const Icon(Icons.search),
                 ),
+              ],
+              title: Text(
+                NewsCubit.get(context).catergorieModel == null
+                    ? 'News App'
+                    : NewsCubit.get(context).catergorieModel!.name,
+                style:
+                    GoogleFonts.exo(fontSize: 22, fontWeight: FontWeight.w600),
               ),
-              drawer: DarwerWidget(
-                makeModelNull: NewsCubit.get(context).makeModelNull,
-              ),
-              body: NewsCubit.get(context).selectedCatergorie == null
-                  ? Padding(
-                      padding: const EdgeInsets.all(12.0),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            'Pick your Category \n of your intrest',
-                            style: GoogleFonts.poppins(
-                                fontSize: 25, fontWeight: FontWeight.w500),
-                          ),
-                          const SizedBox(
-                            height: 20,
-                          ),
-                          Expanded(
-                            child: GridView.builder(
-                              gridDelegate:
-                                  const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: .79,
-                                      crossAxisSpacing: 18,
-                                      mainAxisSpacing: 18),
-                              itemCount: categories.length,
-                              itemBuilder: (context, index) {
-                                return GridViewItemWidget(
-                                    OnClick: NewsCubit.get(context).onClick,
-                                    index: index,
-                                    catergorieModel: categories[index]);
-                              },
-                            ),
-                          ),
-                        ],
-                      ),
-                    )
-                  : NewsScreen(
-                      catergorieModel:
-                          NewsCubit.get(context).selectedCatergorie!),
             ),
-          );
-        },
-      ),
+            drawer: DarwerWidget(
+              makeModelNull: NewsCubit.get(context).makeModelNull,
+            ),
+            body: NewsCubit.get(context).catergorieModel == null &&
+                    CasheHelper.getData('news') == null
+                ? Padding(
+                    padding: const EdgeInsets.all(12.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Pick your Category \n of your intrest',
+                          style: GoogleFonts.poppins(
+                              fontSize: 25, fontWeight: FontWeight.w500),
+                        ),
+                        const SizedBox(
+                          height: 20,
+                        ),
+                        Expanded(
+                          child: GridView.builder(
+                            gridDelegate:
+                                const SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    childAspectRatio: .79,
+                                    crossAxisSpacing: 18,
+                                    mainAxisSpacing: 18),
+                            itemCount: categories.length,
+                            itemBuilder: (context, index) {
+                              return GridViewItemWidget(
+                                  OnClick: NewsCubit.get(context).onClick,
+                                  index: index,
+                                  catergorieModel: categories[index]);
+                            },
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                : NewsScreen(
+                    ),
+          ),
+        );
+      },
     );
   }
 

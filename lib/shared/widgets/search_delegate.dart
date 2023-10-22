@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:news_app_route/core/network/api_manager.dart';
 import 'package:news_app_route/cubit/new_cubit.dart';
 import 'package:news_app_route/cubit/news_state.dart';
 import 'package:news_app_route/shared/widgets/article_news_screen.dart';
@@ -61,7 +60,46 @@ class Search extends SearchDelegate {
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    return s}
+    return BlocProvider(
+      create: (context) => NewsCubit()..getSearchData(query),
+      child: BlocConsumer<NewsCubit, HomeState>(
+        listener: (context, state) {
+          if (state is HomeLoadindState) {
+            const Center(child: CircularProgressIndicator());
+          } else if (state is HomeNewsErrorState) {
+            const Center(child: Text('No News'));
+          } else {
+            const Center(child: Text('No News'));
+          }
+        },
+        builder: (context, state) {
+          if (state is HomeLoadindState) {
+            return const Center(child: CircularProgressIndicator());
+          } else if (state is HomeNewsErrorState) {
+            return const Center(
+                child: Text(
+              'No News',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ));
+          } else if (state is HomeNewsSuccessState) {
+            return const NewsSuccess();
+          } else {
+            return const Center(
+                child: Text(
+              'No News',
+              style: TextStyle(
+                  color: Colors.black,
+                  fontSize: 25,
+                  fontWeight: FontWeight.bold),
+            ));
+          }
+        },
+      ),
+    );
+  }
 }
 
 /*

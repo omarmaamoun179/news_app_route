@@ -7,9 +7,11 @@ import 'package:news_app_route/shared/widgets/categories_item.dart';
 // ignore: must_be_immutable
 class DarwerWidget extends StatelessWidget {
   Function? makeModelNull;
+  Function? makeCasheClear;
   DarwerWidget({
     super.key,
-    required this.makeModelNull,
+    this.makeCasheClear,
+    this.makeModelNull,
   });
 
   @override

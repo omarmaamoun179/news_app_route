@@ -2,20 +2,20 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:news_app_route/cubit/new_cubit.dart';
 import 'package:news_app_route/cubit/news_state.dart';
-import 'package:news_app_route/models/categories_mode.dart';
 import 'package:news_app_route/shared/widgets/article_news_screen.dart';
 import 'package:news_app_route/shared/widgets/default_tab_bar_widget.dart';
 
 // ignore: must_be_immutable
 class NewsScreen extends StatelessWidget {
-  CatergorieModel? catergorieModel;
-  NewsScreen({super.key, this.catergorieModel});
   static const String routeName = 'news_screen';
+
+  const NewsScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NewsCubit()..getSources(catergorieModel!.id),
+      create: (context) => NewsCubit()
+        ..getSources(NewsCubit.get(context).catergorieModel?.id ?? 'sports'),
       child: BlocConsumer<NewsCubit, HomeState>(listener: (context, state) {
         if (state is HomeLoadindState) {
           const Center(child: CircularProgressIndicator());

@@ -13,21 +13,88 @@ class SearchScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var mediaQuery = MediaQuery.of(context).size;
-    return BlocProvider(
-      create: (context) => SearchCubit(),
-      child: BlocConsumer<SearchCubit, SearchState>(listener: (context, state) {
-        if (state is HomeNewsSuccessState) {
-          SearchCubit.get(context)
-              .seachNews(SearchCubit.get(context).searchController.text);
-        }
-      }, builder: (context, state) {
-        var list = SearchCubit.get(context).articlesList ?? [];
-        return SuccessNews(
-          mediaQuery: mediaQuery,
-          list: list,
-          isSearch: isSearch,
-        );
-      }),
+    return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          alignment: Alignment.center,
+          width: mediaQuery.width * 1,
+          height: mediaQuery.height * 0.05,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.only(
+              bottomLeft: Radius.circular(20),
+              bottomRight: Radius.circular(20),
+            ),
+          ),
+          child: Center(
+            child: TextField(
+              textAlign: TextAlign.start,
+              textAlignVertical: TextAlignVertical.bottom,
+              controller: SearchCubit.get(context).searchController,
+              onChanged: (value) {
+                SearchCubit.get(context).seachNews(value);
+              },
+              onSubmitted: (value) {
+                SearchCubit.get(context).seachNews(value);
+              },
+              decoration: const InputDecoration(
+                hintText: 'Search',
+                prefixIcon: Icon(Icons.search),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.only(
+                    bottomLeft: Radius.circular(20),
+                    bottomRight: Radius.circular(20),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
+      ),
+      body: BlocConsumer<SearchCubit, SearchState>(
+        listener: (context, state) {
+          if (state is HomeNewsSuccessState) {
+            SearchCubit.get(context)
+                .seachNews(SearchCubit.get(context).searchController.text);
+          }
+        },
+        builder: (context, state) {
+          var list = SearchCubit.get(context).articlesList;
+          if (state is SearchLoading) {
+            return const Center(child: CircularProgressIndicator());
+          }
+
+          return Column(
+            children: [
+              // Padding(
+              //   padding: const EdgeInsets.all(20.0),
+              //   child: TextField(
+              //     controller: SearchCubit.get(context).searchController,
+              //     onChanged: (value) {
+              //       SearchCubit.get(context).seachNews(value);
+              //     },
+              //     onSubmitted: (value) {
+              //       SearchCubit.get(context).seachNews(value);
+              //     },
+              //     decoration: const InputDecoration(
+              //       labelText: 'Search',
+              //       prefixIcon: Icon(Icons.search),
+              //       border: OutlineInputBorder(),
+              //     ),
+              //   ),
+              // ),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: list.length,
+                  itemBuilder: (context, index) {
+                    return ArticlesNewsWidget(articles: list[index]);
+                  },
+                ),
+              ),
+            ],
+          );
+        },
+      ),
     );
   }
 }
