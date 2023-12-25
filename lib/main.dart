@@ -16,7 +16,7 @@ void main() async {
   await CasheHelper.init();
   String? cashe = CasheHelper.getData('news');
   String start;
-  if (cashe  == null) {
+  if (cashe == null) {
     start = SplashScreen.routeName;
   } else {
     start = HomeScreen.routeName;
@@ -40,9 +40,7 @@ class NewsApp extends StatelessWidget {
         BlocProvider<SearchCubit>(
           create: (context) => SearchCubit(),
         ),
-        BlocProvider(
-          create: (context) => NewsCubit(),
-        ),
+        BlocProvider(create: (context) => NewsCubit()),
       ],
       child: MaterialApp(
         theme: AppTheme.appTheme(MediaQuery.of(context)),
@@ -51,7 +49,7 @@ class NewsApp extends StatelessWidget {
         routes: {
           SplashScreen.routeName: (context) => const SplashScreen(),
           HomeScreen.routeName: (context) => HomeScreen(),
-          NewsScreen.routeName: (context) => NewsScreen(),
+          NewsScreen.routeName: (context) => const NewsScreen(),
           SearchScreen.routeName: (context) => SearchScreen(),
         },
       ),

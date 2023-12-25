@@ -41,7 +41,7 @@ class NewsCubit extends Cubit<HomeState> {
 
       if (response.statusCode == 200 &&
           jsonDecode(response.body)['status'] == 'ok') {
-        sources = SourceModel.fromJson(result).sources ?? [];
+        sources = SourceModel.fromJson(result).sources  ?? [];
 
         emit(HomeSorcesSuccessState());
       } else {
@@ -112,7 +112,7 @@ class NewsCubit extends Cubit<HomeState> {
   ) {
     emit(HomeInitialState());
     this.catergorieModel = catergorieModel;
-    CasheHelper.saveData('news', catergorieModel.id);
+    CasheHelper.saveData('news', this.catergorieModel!.id);
     emit(NewsView());
   }
 
@@ -130,13 +130,6 @@ class NewsCubit extends Cubit<HomeState> {
     emit(HomeClear());
   }
 
-  onSave(
-    bool isSaved,
-  ) {
-    emit(HomeInitialState());
-    CasheHelper.saveData('news', isSaved);
-    emit(HomeSaved());
-  }
 
-  String? cashe = CasheHelper.getData('news') ?? '';
+
 }

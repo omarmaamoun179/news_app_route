@@ -14,8 +14,8 @@ class NewsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => NewsCubit()
-        ..getSources(NewsCubit.get(context).catergorieModel?.id ?? 'sports'),
+      create: (context) =>
+          NewsCubit()..getSources(NewsCubit.get(context).catergorieModel!.id),
       child: BlocConsumer<NewsCubit, HomeState>(listener: (context, state) {
         if (state is HomeLoadindState) {
           const Center(child: CircularProgressIndicator());

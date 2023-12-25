@@ -52,8 +52,7 @@ class HomeScreen extends StatelessWidget {
       color: const Color(0xffF2D352),
     ),
   ];
-  int index = 0;
-
+ 
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewsCubit, HomeState>(
@@ -80,7 +79,8 @@ class HomeScreen extends StatelessWidget {
               title: Text(
                 NewsCubit.get(context).catergorieModel == null
                     ? 'News App'
-                    : NewsCubit.get(context).catergorieModel!.name,
+                    : NewsCubit.get(context).catergorieModel?.name ??
+                        'News App',
                 style:
                     GoogleFonts.exo(fontSize: 22, fontWeight: FontWeight.w600),
               ),
@@ -123,8 +123,7 @@ class HomeScreen extends StatelessWidget {
                       ],
                     ),
                   )
-                : NewsScreen(
-                    ),
+                : const NewsScreen(),
           ),
         );
       },

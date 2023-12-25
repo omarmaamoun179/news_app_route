@@ -1,6 +1,4 @@
-import 'package:news_app_route/models/articles_modle/article.dart';
 import 'package:news_app_route/models/categories_mode.dart';
-import 'package:news_app_route/models/source_model.dart';
 
 abstract class HomeState {}
 
@@ -9,9 +7,7 @@ class HomeInitialState extends HomeState {}
 class HomeLoadindState extends HomeState {}
 
 class HomeSorcesSuccessState extends HomeState {
-CatergorieModel? catergorieModel;
-  
-  
+  CatergorieModel? catergorieModel;
 }
 
 class HomeSorcesErrorState extends HomeState {
@@ -27,12 +23,15 @@ class HomeNewsErrorState extends HomeState {
 }
 
 class HomeChangeIndexState extends HomeState {}
-class HomeChangeIndexListState extends HomeState {}
 
+class HomeChangeIndexListState extends HomeState {}
 
 class HomeView extends HomeState {}
 
 class NewsView extends HomeState {}
+
 class HomeSearchIconState extends HomeState {}
+
 class HomeSaved extends HomeState {}
+
 class HomeClear extends HomeState {}
